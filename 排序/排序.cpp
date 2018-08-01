@@ -96,10 +96,35 @@ void ShellSort(vector<T>& array) {
 	}
 }
 
+
+/*冒泡排序 O(n^2)
+稳定  每一趟排序都会有一个元素在最终位置上
+*/
+template<typename T>
+void BubbleSort(vector<T>& array)
+{
+	if (array.size() < 2)
+		return;
+	bool flag = false;//标记是否发生交换
+	for (int i = 0; i < array.size() - 1; i++) {
+		flag = false;
+		for (int j = 0; j < array.size() - i - 1; j++)
+		{
+			if (array[j] > array[j + 1]) {
+				swap(array[j], array[j + 1]);
+				flag = true;
+			}
+		}
+		if (flag == false)
+			return;
+	}
+}
+
 int main()
 {
 	vector<double> v{6,5,4,3,2,1,3,32,32,3,4,52,432,12,313,5,1,4,12};
-	ShellSort(v);
+	//ShellSort(v);
+	BubbleSort(v);
 	for (int i = 0; i < v.size(); i++)
 		cout << v[i] << endl;
     return 0;

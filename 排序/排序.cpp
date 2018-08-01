@@ -123,11 +123,86 @@ void BubbleSort(vector<T>& array)
 	}
 }
 
+
+/*快排 严蔚敏版
+空间复杂度: 最坏O(n) 平均:O(logn)
+时间复杂度: 最坏O(n^2) 平均O(nlogn)
+不稳定
+*/
+template<typename T>
+void QuickSort(vector<T>& array, int low, int high)
+{
+	if (low < high) {
+		int pivot = Partition2(array, low, high);
+		QuickSort(array, low, pivot - 1);
+		QuickSort(array, pivot + 1, high);
+	}
+}
+
+template<typename T>
+int Partition(vector<T>& array,int low,int high){
+	int pivot = array[low];
+	while (low < high) {
+		while (low < high&&array[high] >= pivot)
+			high--;
+		//swap(array[low], array[high]);
+		array[low] = array[high];
+		while (low < high&&array[low] <= pivot)
+			low++;
+		//swap(array[low], array[high]);
+		array[high] = array[low];
+	}
+	array[low] = pivot;
+	return low;
+}
+
+/*随机选取pivot*/
+template<typename T>
+int Partition2(vector<T>& array, int low, int high) {
+	int pivot_number = low + rand() % (high - low + 1);
+	T pivot = array[pivot_number];
+	swap(array[high], array[pivot_number]);
+	int small =low-1;
+	for (int i = low; i <= high; i++)
+	{
+		if (array[i] < pivot)
+		{
+			small++;
+			swap(array[small], array[i]);
+		}
+	}
+	small++;
+	swap(array[small], array[high]);
+	return small;//返回确定的枢纽值
+}
+
+/*选择排序 每趟选择最小的
+时间复杂度O(n^2)
+不稳定
+*/
+template<typename T>
+void SelectSort(vector<T>& array) {
+	if (array.size() == 0)
+		return;
+	for (int i = 0; i < array.size() - 1; i++)
+	{
+		int minindex = i;
+		for (int j = i + 1; j < array.size(); j++)
+		{
+			if (array[j] < array[minindex])
+				minindex = j;
+		}
+		if (minindex != i)
+			swap(array[minindex], array[i]);
+	}
+}
 int main()
 {
-	vector<double> v{6,5,4,3,2,1,3,32,32,3,4,52,432,12,313,5,1,4,12};
+	vector<int> v{6,5,4,3,2,1,2324,2,543,53,5,1,1,23,13,14,235,345,4};
 	//ShellSort(v);
-	BubbleSort(v);
+	//BubbleSort(v);
+	//QuickSort(v, 0,v.size()-1);
+	SelectSort(v);
 	for (int i = 0; i < v.size(); i++)
 		cout << v[i] << endl;
     return 0;

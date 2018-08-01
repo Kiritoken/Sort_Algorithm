@@ -38,13 +38,34 @@ void InsertSort(vector<T> &array)
 template<typename T>
 void Partition_InsertSort(vector<T> &array)
 {
-
+	if (array.size() == 0)
+		return;
+	//ÉÚ±ø
+	T temp;
+	int i;
+	for (i = 1; i < array.size(); i++)
+	{
+		temp = array[i];
+		int start = 0;
+		int end = i - 1;
+		int mid;
+		while (start <= end) {
+			mid = (start + end) / 2;
+			if (array[mid]>temp)
+				end = mid - 1;
+			else 
+				start = mid + 1;
+		}
+		for (int a =i-1; a > end; a--)
+			array[a + 1] = array[a];//ºóÒÆ
+		array[end+1] = temp;
+	}
 }
 
 int main()
 {
-	vector<double> v{ 6};
-	InsertSort(v);
+	vector<double> v{6,5,4,3,2,1};
+	Partition_InsertSort(v);
 	for (int i = 0; i < v.size(); i++)
 		cout << v[i] << endl;
     return 0;

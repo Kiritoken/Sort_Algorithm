@@ -34,7 +34,9 @@ void InsertSort(vector<T> &array)
 }
 
 
-/*折半插入排序*/
+/*折半插入排序  平均时间复杂度O(n^2)
+只是优化了查找插入位置  稳定
+*/
 template<typename T>
 void Partition_InsertSort(vector<T> &array)
 {
@@ -62,10 +64,42 @@ void Partition_InsertSort(vector<T> &array)
 	}
 }
 
+//交换
+template<typename T>
+void swap(T* a, T*b) {
+	T temp;
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+
+/*希尔排序(基于swap)  平均时间复杂度O(n^1.3) 最坏O(n^2) 
+不稳定
+*/
+template<typename T>
+void ShellSort(vector<T>& array) {
+	if (array.size() == 1)
+		return;
+	int increment = array.size() / 2;
+	int i;
+	for (increment; increment >= 1; increment /= 2) {
+		cout << "increment:" << increment<<endl;
+		for (int i = increment; i < array.size(); i++)
+		{
+			int j = i;
+			while (j - increment >= 0 && array[j] < array[j - increment]) {
+				swap(array[j], array[j - increment]);
+				j -= increment;
+			}
+		}
+	}
+}
+
 int main()
 {
-	vector<double> v{6,5,4,3,2,1};
-	Partition_InsertSort(v);
+	vector<double> v{6,5,4,3,2,1,3,32,32,3,4,52,432,12,313,5,1,4,12};
+	ShellSort(v);
 	for (int i = 0; i < v.size(); i++)
 		cout << v[i] << endl;
     return 0;

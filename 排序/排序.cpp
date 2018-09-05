@@ -196,6 +196,50 @@ void SelectSort(vector<T>& array) {
 			swap(array[minindex], array[i]);
 	}
 }
+
+
+void AdjustDown(vector<int> &v, int k, int length)
+{
+	int temp = v[k];
+	for (int i = 2 * k + 1; i <length; i = i * 2 + 1)
+	{
+		if (i + 1 <length && v[i + 1] > v[i])
+			i++;
+		if (temp > v[i])
+			break;
+		else {
+			v[k] = v[i];
+			k = i;
+		}
+	}
+	v[k] = temp;
+
+}
+
+
+
+void BuildHeap(vector<int> &v)
+{
+	if (v.size() < 1)
+		return;
+	for (int i = ((v.size() - 1) / 2); i >= 0; --i)
+	{
+		AdjustDown(v, i, v.size());
+	}
+}
+
+void MaxHeap(vector<int> &v)
+{
+	if (v.size() < 1)
+		return;
+	BuildHeap(v);
+
+	for (int i = v.size() - 1; i > 0; --i)
+	{
+		swap(v[i], v[0]);
+		AdjustDown(v, 0, i);
+	}
+}
 int main()
 {
 	vector<int> v{6,5,4,3,2,1,2324,2,543,53,5,1,1,23,13,14,235,345,4};
